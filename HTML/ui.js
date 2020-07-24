@@ -4,6 +4,17 @@ function CloseShop() {
     $.post('http://d3x_vehicleshop/CloseMenu', JSON.stringify({}));
 }
 
+function formatMoney(n, c, d, t) {
+    var c = isNaN(c = Math.abs(c)) ? 2 : c,
+        d = d == undefined ? "." : d,
+        t = t == undefined ? "," : t,
+        s = n < 0 ? "-" : "",
+        i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
+        j = (j = i.length) > 3 ? j % 3 : 0;
+
+    return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t);
+};
+
 
 $(document).keyup(function(e) {
      if (e.key === "Escape") {
@@ -42,11 +53,11 @@ $(document).ready(function(){
                     
                     html += `<div class="col-4 mb-4">
                                 <div class="card h-100">
-                                    <img src="`+car.imglink+`" class="card-img-top" alt="`+car.name+`">
+                                    <img src="imgs/`+car.model+`.png" class="card-img-top" alt="`+car.name+`">
                                     <div class="card-body">
                                         <h5 class="card-title">`+car.name+`</h5>
                                         <p class="card-text">Brand: <b>`+car.categoryLabel+`</b></p>
-                                        <p class="card-text">Price: <b>`+car.price+`€</b></p>
+                                        <p class="card-text">Price: <b>`+formatMoney(car.price)+`€</b></p>
                                     </div>
                                     <div class="card-footer bg-white border-0 ">
                                         <button type="button" id="action1" data-value="buy" data-model="`+ car.model +`" class="btn btn-danger w-auto btn-lg buy">Buy</button>
